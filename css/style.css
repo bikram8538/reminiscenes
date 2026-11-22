@@ -1,7 +1,8 @@
 /* ==========================================================
-   REMINISCENCES — Corrected responsive stylesheet
-   Replace the old stylesheet; do not append this below it.
-   Works with the HTML classes supplied in Pasted text (9).
+   REMINISCENCES — ONE COMPLETE style.css
+   All desktop, tablet, and mobile styling in this single file.
+   Replace your old style.css AND remove the old media.css link.
+   Designed for the supplied Reminiscences HTML markup.
    ========================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600;700&family=Arima:wght@400;500;600;700&family=Arizonia&family=Charmonman:wght@400;700&display=swap');
 
@@ -22,7 +23,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 16px; }
 body {
   width: 100%;
   min-width: 320px;
@@ -46,9 +47,9 @@ img { display: block; max-width: 100%; width: auto; height: auto; }
 .section-padding { padding-block: clamp(56px, 7vw, 100px); }
 .row { display: flex; flex-wrap: wrap; margin-inline: -15px; }
 .col { min-width: 0; padding-inline: 15px; }
-.col-50 { flex: 0 0 50%; width: 50%; }
-.col-25 { flex: 0 0 25%; width: 25%; }
-.col-33 { flex: 0 0 33.333333%; width: 33.333333%; padding-inline: 15px; min-width: 0; }
+.col-50 { flex: 0 0 50%; width: 50%; max-width: 50%; }
+.col-25 { flex: 0 0 25%; width: 25%; max-width: 25%; }
+.col-33 { flex: 0 0 33.333333%; width: 33.333333%; max-width: 33.333333%; padding-inline: 15px; min-width: 0; }
 
 /* Header is in normal flow so it no longer hides the hero. */
 header { position: relative; z-index: 50; background: var(--white); }
@@ -244,58 +245,115 @@ footer p { margin-bottom: 10px; overflow-wrap: anywhere; }
 .footer-bottom a { margin-inline: 5px; color: var(--white); }
 .footer-bottom a:hover { text-decoration: underline; }
 
-/* Tablet */
-@media (max-width: 1024px) {
-  .navList { gap: 18px; }
-  .banner { min-height: auto; }
-  .image-section { min-height: 450px; }
-  .artist-1 { left: 1%; }
-  .artist-2 { left: 0; }
-  .card-body { padding: 20px 15px; }
-}
+/* ==========================================================
+   TABLET / SMALL LAPTOPS — 991px and below
+   Two pricing cards per row. Dropdown navigation with JS.
+   ========================================================== */
+@media (max-width: 991px) {
+  .section-padding { padding-block: 68px; }
+  .col-md-100 { flex: 0 0 100%; width: 100%; max-width: 100%; }
+  .col-md-50 { flex: 0 0 50%; width: 50%; max-width: 50%; }
+  .col-md-33 { flex: 0 0 33.333333%; width: 33.333333%; max-width: 33.333333%; }
+  .col-md-25 { flex: 0 0 25%; width: 25%; max-width: 25%; }
 
-/* Small tablets and phones */
-@media (max-width: 768px) {
-  .section-padding { padding-block: 58px; }
-  .col-md-100 { flex: 0 0 100%; width: 100%; }
-  .col-md-50 { flex: 0 0 50%; width: 50%; }
-  .col-md-33 { flex: 0 0 50%; width: 50%; }
-  .col-50 { flex: 0 0 100%; width: 100%; }
-  .topbar-inr { gap: 10px; }
-  .topbar-inr-lft .topbar-list { gap: 12px; }
-  .topbar-inr-rt .topbar-list > li:first-child { display: none; }
-  .navbar { padding-block: 10px; }
-  .navLogo { max-width: 74px; }
-  nav { position: relative; }
+  /* Hamburger menu; supports existing .active JS or .is-open JS */
+  nav { position: relative; justify-content: space-between; }
   .navToogler { display: block; }
   .navList {
-    display: none; position: absolute; left: 0; right: 0; top: calc(100% + 10px);
-    z-index: 100; background: var(--white); border: 1px solid #efe1d9;
-    border-radius: 10px; padding: 12px 18px; box-shadow: 0 15px 30px rgb(0 0 0 / 12%);
-    flex-direction: column; align-items: stretch; gap: 0; margin: 0;
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 10px);
+    width: 100%;
+    max-width: 100%;
+    z-index: 100;
+    margin: 0;
+    padding: 12px 18px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--white);
+    border: 1px solid #efe1d9;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgb(0 0 0 / 12%);
   }
-  .navList.is-open { display: flex; }
+  .navList.is-open, .navList.active { display: flex; animation: menuSlideDown .25s ease both; }
+  .navList li { padding: 0; }
   .navList li + li { border-top: 1px solid #f3eded; }
-  .navList li a { display: block; padding: 12px 4px; }
+  .navList li a { display: block; padding: 12px 4px; color: var(--ink); }
   .navList li a::after { display: none; }
-  .banner { padding-block: 55px 35px; background: linear-gradient(rgb(255 250 244 / 95%), rgb(255 250 244 / 93%)), url('./images/banner-images.png') center / cover no-repeat; }
-  .banner .row { row-gap: 30px; }
+  @keyframes menuSlideDown {
+    from { opacity: 0; transform: translateY(-7px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .banner { min-height: auto; padding-block: 60px 40px; }
+  .banner > .container > .row { row-gap: 30px; }
   .banner-container, .banner-button { text-align: center; }
   .banner-container h1, .banner-container p { max-width: 640px; margin-inline: auto; }
   .banner-button { justify-content: center; }
-  .image-section { min-height: 450px; max-width: 590px; margin-inline: auto; }
-  .banner-image > img { max-height: 500px; }
+  .image-section { justify-content: center; min-height: 460px; width: 100%; max-width: 640px; margin-inline: auto; }
+  .banner-image { justify-content: center; }
+  .banner-image > img { max-height: 490px; object-position: center; }
+  .artist-1 { left: 1%; width: 42%; }
+  .artist-2 { left: 0; width: 48%; }
+  .artist-3 { left: 2%; width: 54%; }
+
+  .card-section > .container > .row { row-gap: 24px; }
+  .card-section .col-33,
+  .card-section .col-md-33 { flex: 0 0 50%; width: 50%; max-width: 50%; }
+  .card-section .card { width: 100%; max-width: 100%; }
+  .card-body { padding: 21px 17px; }
+
+  footer .col-33 { flex: 0 0 50%; width: 50%; max-width: 50%; }
+  footer .col-33:last-child { flex: 0 0 100%; width: 100%; max-width: 100%; }
+}
+
+/* ==========================================================
+   MOBILE / SMALL TABLETS — 768px and below
+   Single-column pricing cards and footer; two-column gallery.
+   ========================================================== */
+@media (max-width: 768px) {
+  .section-padding { padding-block: 56px; }
+  .col-50, .col-33, .col-25,
+  .col-md-100, .col-md-33, .col-md-25 {
+    flex: 0 0 100%; width: 100%; max-width: 100%;
+  }
+  .col-md-50 { flex: 0 0 50%; width: 50%; max-width: 50%; }
+
+  .topbar-inr { gap: 10px; }
+  .topbar-inr-lft .topbar-list { gap: 10px 16px; }
+  .topbar-inr-rt .topbar-list > li:first-child { display: none; }
+  .navbar { padding-block: 10px; }
+  .navLogo { max-width: 76px; }
+
+  .banner { padding-block: 50px 35px; background: linear-gradient(rgb(255 250 244 / 95%), rgb(255 250 244 / 93%)), url('./images/banner-images.png') center / cover no-repeat; }
+  .banner-container h1 { font-size: clamp(28px, 6vw, 40px); }
+  .banner-container p { font-size: 15px; }
+  .image-section { min-height: 390px; }
   .artist-1 { width: 42%; }
   .artist-2 { width: 48%; }
   .artist-3 { width: 54%; }
-  .gallery-container .row > .col { flex-basis: 50%; width: 50%; }
-  .card-section .col-33 { flex: 0 0 50%; width: 50%; }
+
+  .gallery-container .row > .col { flex: 0 0 50%; width: 50%; max-width: 50%; }
+  .card-section > .container > .row { flex-direction: column; align-items: stretch; }
+  .card-section .col-33,
+  .card-section .col-md-33 { flex: 0 0 100%; width: 100%; max-width: 100%; }
+  .card-section .card { width: 100%; max-width: 480px; margin-inline: auto; }
+  .card-img > img { aspect-ratio: 4 / 3; }
+
   .couple-part .header { text-align: center; }
   .couple-part .header .line { margin-left: auto; }
   .image-content img { max-height: 400px; }
   .left-div { border-right: 0; border-bottom: 1px solid rgb(255 255 255 / 35%); padding-bottom: 25px; }
-  footer .col-33 { flex: 0 0 50%; width: 50%; }
-  footer .col-33:last-child { flex: 0 0 100%; width: 100%; }
+
+  footer > .container > .row { flex-direction: column; align-items: stretch; gap: 8px; margin-inline: -15px; }
+  footer .col, footer .col-33, footer .col-33:last-child { flex: 0 0 100%; width: 100%; max-width: 100%; text-align: center; }
+  footer .footer-links { width: 100%; max-width: 340px; margin-inline: auto; text-align: left; }
+  footer .col-33:nth-child(2) img { max-width: 210px; margin-inline: auto; }
+  footer .social-links-1 { margin-top: 20px; }
+  .footer-bottom { flex-direction: column; text-align: center; justify-content: center; gap: 8px; }
 }
 
 @media (max-width: 560px) {
@@ -315,12 +373,12 @@ footer p { margin-bottom: 10px; overflow-wrap: anywhere; }
   .gallery-container { width: min(100% - 16px, var(--content-width)); }
   .gallery-container > .row { margin: -4px; }
   .gallery-container .row > .col { padding: 4px; }
-  .card-section .col-33 { flex: 0 0 100%; width: 100%; }
+  .card-section .col-33, .card-section .col-md-33 { flex: 0 0 100%; width: 100%; max-width: 100%; }
   .card { max-width: 420px; margin-inline: auto; }
   .feature-wedding .row { row-gap: 15px; }
   .feature-wedding .row > .col { flex: 0 0 100%; width: 100%; }
   .intro-part .last-para p, .feature-wedding .last-para p { font-size: 14px; line-height: 1.85; }
-  footer .col-33, footer .col-33:last-child { flex: 0 0 100%; width: 100%; }
+  footer .col-33, footer .col-33:last-child { flex: 0 0 100%; width: 100%; max-width: 100%; }
   footer > .container > .row { padding-block: 25px; }
   footer .col-33:nth-child(2) img { max-width: 200px; }
   .footer-bottom { justify-content: center; text-align: center; padding: 15px; }
